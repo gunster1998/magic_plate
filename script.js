@@ -1,6 +1,6 @@
 
 
-function createGrid(quantityColumns = 16,quantityLines = 16,sizeTile = 50,sizeBorder = 1) {
+function createGrid(quantityColumns = 16, quantityLines = 16, sizeTile = 50, sizeBorder = 1) {
 
     const divCanvas = document.querySelector('.canvas');
     const widthCanvas = quantityColumns * sizeTile;
@@ -31,7 +31,8 @@ function createGrid(quantityColumns = 16,quantityLines = 16,sizeTile = 50,sizeBo
     for (let i = 0; i < sumTile; i++){
         const divTile = document.createElement('div');
         divTile.style.border = `${sizeBorder}px solid black`;
-
+        divTile.style.width = `${sizeTile}px`
+        divTile.style.height = `${sizeTile}px`
         divTile.classList.add('divTile');
         borderStartEnd(i,divTile);
 
@@ -39,4 +40,33 @@ function createGrid(quantityColumns = 16,quantityLines = 16,sizeTile = 50,sizeBo
     }
 }
 
-createGrid()
+function coloringTile(colorTile = 'blue') {
+    const tiles = document.querySelectorAll('.divTile')
+    let trackingButtonDown = false;
+
+    tiles.forEach(tile => {
+        tile.addEventListener('mousedown', () => {
+            trackingButtonDown = true
+            tile.style.backgroundColor = `${colorTile}`
+        })
+    })
+
+    tiles.forEach(tile => {
+        tile.addEventListener('mouseover', () => {
+            if (trackingButtonDown){
+                tile.style.backgroundColor = `${colorTile}`;
+            }
+
+        })
+    })
+
+    tiles.forEach(tile => {
+        tile.addEventListener('mouseup', () => {
+            trackingButtonDown = false;
+        })
+    })
+}
+
+
+createGrid(20,20,25)
+coloringTile()
