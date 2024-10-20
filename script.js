@@ -54,33 +54,29 @@ function createGrid(quantityColumns = 16, quantityLines = 16, sizeTile = 50, siz
 }
 
 function coloringTile(colorTile = '#f6b73c') {
-    const tiles = document.querySelectorAll('.divTile')
+    const divCanvas = document.querySelector('.canvas');
     let trackingButtonDown = false;
  
-    tiles.forEach(tile => {
-        tile.addEventListener('mousedown', () => {
+
+    divCanvas.addEventListener('mousedown', (event) => {
+        if (event.target.classList.contains('divTile')){
             trackingButtonDown = true;
+            const tile = event.target;
             const tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
             tile.style.opacity = tileStyle+ 0.2;
             tile.style.backgroundColor = `${colorTile}`;
+        }
         })
+    divCanvas.addEventListener('mouseover', (event) => {
+        if (trackingButtonDown && event.target.classList.contains('divTile')) {
+            const tile = event.target;
+            const tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
+            tile.style.backgroundColor = `${colorTile}`;
+            tile.style.opacity = tileStyle+ 0.2;
+        }
     })
-
-    tiles.forEach(tile => {
-        tile.addEventListener('mouseover', () => {
-            if (trackingButtonDown) {
-                tile.style.backgroundColor = `${colorTile}`;
-                const tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
-                tile.style.opacity = tileStyle+ 0.2;
-            }
-
-        })
-    })
-
-    tiles.forEach(tile => {
-        tile.addEventListener('mouseup', () => {
-            trackingButtonDown = false;
-        })
+    divCanvas.addEventListener('mouseup', () => {
+        trackingButtonDown = false;
     })
 }
 
