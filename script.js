@@ -10,12 +10,18 @@ document.getElementById('buttonNewTile').addEventListener('click', function () {
         return;
     }
     createGrid(quantityColumns, quantityLines, sizeTile);
-    coloringTile(colorTile);
+    coloringTile(colorTile,quantityColumns,quantityLines);
 })
 
 function createGrid(quantityColumns = 16, quantityLines = 16, sizeTile = 50, sizeBorder = 1) {
-
-    const divCanvas = document.querySelector('.canvas');
+    const oldCanvas = document.querySelector('.canvas')
+    if (oldCanvas){
+        oldCanvas.remove()
+    }
+    const divCanvas = document.createElement('div'); 
+    divCanvas.classList.add('canvas'); 
+    document.body.appendChild(divCanvas); 
+    
     const widthCanvas = quantityColumns * sizeTile;
     let sumTile = quantityColumns * quantityLines;
     divCanvas.style.width = `${widthCanvas}px`;
@@ -53,29 +59,39 @@ function createGrid(quantityColumns = 16, quantityLines = 16, sizeTile = 50, siz
     }
 }
 
-function coloringTile(colorTile = '#f6b73c') {
+function coloringTile(colorTile = '#f6b73c',quantityColumns,quantityLines) {
     const divCanvas = document.querySelector('.canvas');
-    let trackingButtonDown = false;
+    let trackingButtonDown = false
+    let tilesOpacity = [];
+
+
+    const divCanvasNew = document.querySelector('.canvas');
+    for (let i = 0; i<quantityLines; i++){
+
+    }
+
  
 
-    divCanvas.addEventListener('mousedown', (event) => {
+    divCanvasNew.addEventListener('mousedown', (event) => {
         if (event.target.classList.contains('divTile')){
             trackingButtonDown = true;
             const tile = event.target;
-            const tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
-            tile.style.opacity = tileStyle+ 0.2;
+            let tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
+            tile.style.opacity = tileStyle + 0.2;
             tile.style.backgroundColor = `${colorTile}`;
+            console.log(window.getComputedStyle(tile).opacity)
         }
         })
-    divCanvas.addEventListener('mouseover', (event) => {
+    divCanvasNew.addEventListener('mouseover', (event) => {
         if (trackingButtonDown && event.target.classList.contains('divTile')) {
             const tile = event.target;
-            const tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
+            let tileStyle = parseFloat(window.getComputedStyle(tile).opacity);
             tile.style.backgroundColor = `${colorTile}`;
-            tile.style.opacity = tileStyle+ 0.2;
+            tile.style.opacity = tileStyle + 0.2;
+            console.log(window.getComputedStyle(tile).opacity)
         }
     })
-    divCanvas.addEventListener('mouseup', () => {
+    divCanvasNew.addEventListener('mouseup', () => {
         trackingButtonDown = false;
     })
 }
